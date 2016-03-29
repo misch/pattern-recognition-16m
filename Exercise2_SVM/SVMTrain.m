@@ -8,7 +8,7 @@ function [ model ] = SVMTrain( data , numClasses )
 model = cell(numClasses,1);
 for i = 1:numClasses
     model{i} = fitcsvm(data(:,2:end), data(:,1) == (i-1),...
-        'Standardize',true,'KernelFunction','RBF', 'KernelScale','auto');
+        'KernelFunction','RBF', 'KernelScale','auto');
 end
 end
 

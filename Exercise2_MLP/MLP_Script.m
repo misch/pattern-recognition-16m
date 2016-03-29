@@ -1,21 +1,20 @@
 %% read files
-
 train = csvread('../train.csv');
+trainingData = train(:,2:end);
+trainingLabels = train(:,1);
+clear train;
+
 test = csvread('../test.csv');
+testData = test(:,2:end);
+testLabels = test(:,1);
+clear test;
 
 %% train MPL with 1 hidden layer
-
-mlp = trainMLP(train);
+mlp = trainMLP(trainingData,trainingLabels);
 
 %% classify the testset
-
-classes = classifyMLP(mlp, test);
-
+classes = classifyMLP(mlp, testData);
+errors = gsubtract(testLabels,classes);
 
 %% evaluate accuracy
-
-accur = classes == test(:,1);
-succ = sum(accur==1);
-acurracy = succ/size(accur)
-
-%%  tweak networks...
+accuracy = sum(classes == testLabels)/length(testLabels);

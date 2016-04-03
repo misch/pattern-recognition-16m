@@ -5,8 +5,7 @@ function [ classes ] = classifyMLP( mlp, data )
 % data: a MxN matrix where M = #samples, N = #features
 
     classes = mlp(data');
-    
-    [max_score,classes] = max(classes,[],2);
+    [max_score,classes] = max(classes,[],1);
     classes = classes'-1;
 end
 

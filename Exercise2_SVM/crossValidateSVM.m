@@ -53,6 +53,9 @@ for p = 1:size(C,2)
     accuracies(p,2) = accuracy/k;
 end
 
+% Write computed accuracies to a file
+dlmwrite('cvAccuracy.txt', accuracies);
+
 % Find indices of highest accuracy
 [~,ind] = max(accuracies(:));
 [r,c] = ind2sub(size(accuracies),ind);

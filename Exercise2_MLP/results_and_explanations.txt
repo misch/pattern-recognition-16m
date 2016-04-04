@@ -1,6 +1,6 @@
 Results and explanations:
 
-In the file 'crossValid.csv' there are the cross-validation values with their params.
+In the file 'crossValid.txt'* there are the cross-validation values with their params.
 
 Column 1: number of neurons
 Colunm 2: learning Rate (which seems not to have an impact for some readon)
@@ -13,10 +13,14 @@ The only explanation I can think of, is that the high number of max epochs we us
 
 
 
-The best Accuracy is 0.9559 optained with 90 neurons in our test range (a former test run gave even better values at 500 neurons, but I couldn't finisch the test set due to high computation times, the few values we got can be found in 'crossValid_to_high.csv').
+The best Accuracy is 0.9559 optained with 90 neurons in our test range (a former test run gave even better values at 500 neurons, but I couldn't finisch the test set due to high computation times, the few values we got can be found in 'crossValid_to_high.txt'*).
 As previousliy stated, the learning rate seems to have no influence here for whatever reason.
 
 
 The plot of the error can be found in the file 'Plot_cross_entropy.pdf'.
 The Matlab NNet library automatically stops when the error reaches a minimum. Therefore the plot does not show the overfitting that happens with too many epochs.
 (I could not find out how to disable this feature, since all you find on the internet is "why would you want to do that?")
+
+
+
+*The .txt files are actually csv's, but we have .csv in our gitignore

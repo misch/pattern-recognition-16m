@@ -1,7 +1,11 @@
 function [ classes ] = classifyMLP( mlp, data )
-%CLASSIFYMLP Summary of this function goes here
-%   Detailed explanation goes here
+%CLASSIFYMLP takes a trained patternnet and some data as input and returns
+%the likely classes for the data.
+% mlp: a trained patternnet
+% data: a MxN matrix where M = #samples, N = #features
 
-
+    classes = mlp(data');
+    [max_score,classes] = max(classes,[],1);
+    classes = classes'-1;
 end
 

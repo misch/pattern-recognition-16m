@@ -55,12 +55,16 @@ end
 resultReshaped = reshape(results,7,10*size(results,3))';
 csvwrite('result.csv',resultReshaped);
 
-%% train MPL with 1 hidden layer
-mlp = trainMLP(allData, allLabels, 100);
+%% get best result parameters
+[~,I] = max(resultReshaped(:,7),[],1)
+
+
+%% train MPL with 1 hidden layer with the best params
+mlp = trainMLP(allData, allLabels, resultReshaped(I,1), resultReshaped(I,2));
 
 %% classify the testset
-classes = classifyMLP(mlp, testData);
-errors = gsubtract(testLabels,classes);
+classes = classifyMLP(mlp, allData);
+errors = gsubtract(allLabels,classes);
 
 %% evaluate accuracy
-accuracy = sum(classes == testLabels)/length(testLabels)
+accuracy = sum(classes == allLabels)/length(allLabels)

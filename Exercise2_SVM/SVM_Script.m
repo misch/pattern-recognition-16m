@@ -3,11 +3,15 @@
 train = csvread('../train.csv');
 test = csvread('../test.csv');
 
-%% Train the SVM
+%% Find optimal parameters by cross validation
 
 n_class = size(unique(train(:,1)),1);
 
-SVMModel = SVMTrain(train, n_class);
+[optC, optKernel, optCAcc] = crossValidateSVM(train, n_class, 5);
+
+%% Train the SVM
+
+SVMModel = SVMTrain(train, n_class, optC, optKernel);
 
 %% classify the testset
 
@@ -18,8 +22,4 @@ classes = classifySVM(SVMModel, test(:,2:end), n_class);
 
 accur = classes == test(:,1);
 succ = sum(accur==1);
-acurracy = succ/size(accur,1)
-
-
-%% do some cross-validation...
-
+accuracy = succ/size(accur,1)

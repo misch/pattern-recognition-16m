@@ -1,4 +1,4 @@
-function [ model ] = SVMTrain( data , numClasses )
+function [ model ] = SVMTrain( data , numClasses, C, Kernel )
 %SVMTRAIN Train a multiclass SVM-classifier on the data
 %   [model] = SVMTrain(data, numClasses) trains multiclass svm-classifers
 %               on the data with numClasses different classes
@@ -8,7 +8,7 @@ function [ model ] = SVMTrain( data , numClasses )
 model = cell(numClasses,1);
 for i = 1:numClasses
     model{i} = fitcsvm(data(:,2:end), data(:,1) == (i-1),...
-        'KernelFunction','RBF', 'KernelScale','auto');
+        'Cost',[0,C;C,0],'KernelFunction',Kernel, 'KernelScale','auto');
 end
 end
 

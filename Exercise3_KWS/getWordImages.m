@@ -1,6 +1,14 @@
 function [] = getWordImages(boundingBoxFolder, inputImagesFolder, outputFolder)
 %GETWORDIMAGES Create word images from given bounding boxes.
 
+%% Throw errors, if folders don't exist
+if (~exist(boundingBoxFolder,'dir'))
+    error(['directory ', boundingBoxFolder,' could not be found.']);
+end
+if (~exist(inputImagesFolder,'dir'))
+    error(['directory ', inputImagesFolder,' could not be found.']);
+end
+
 files = dir([boundingBoxFolder,'*.svg']);
 for file = files'
     %% Read svg file
@@ -44,13 +52,10 @@ for file = files'
         min_x = round(min(p.x_coord)); max_x = round(max(p.x_coord));
         min_y = round(min(p.y_coord)); max_y = round(max(p.y_coord));
         
-        try
-            word_img = masked(min_y:max_y , min_x:max_x);
-        catch
-            disp('whaaat')
-        end
+        word_img = masked(min_y:max_y , min_x:max_x);
 
         imwrite(word_img,[outputFolder,p.id,'.png']);
     end
     clear collected_polygons;
 end
+disp(['Saved word images to ',outputFolder]);

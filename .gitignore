@@ -4,5 +4,6 @@
 # OSX / *nix default autosave extension
 *.m~
 
-# everyone keeps his own csv files
+# everyone keeps his own data files
 *.csv
+Exercise3_KWS/data/*

@@ -22,11 +22,13 @@ binarizeImages(inputImagesFolder, outputFolder,threshold);
 % A word is a sequence of feature vectors
 binWordImagesFolder = 'data/word_images_binary/';
 allWordFiles = dir([binWordImagesFolder,'*.png'])';
+[~,transcription] = textread('data/ground-truth/transcription.txt','%s%s');
 
 n_files = length(allWordFiles);
 dataset = struct(   'pageNo',zeros(n_files,1),...
                     'lineNo',zeros(n_files,1),...
                     'wordNo',zeros(n_files,1),...
+                    'transcription',{cell(n_files,1)},...
                     'timeseries',[],...
                     'mu',[],...
                     'sigma',[]);
@@ -45,13 +47,16 @@ for ii = 1:n_files
 
     gradientLowerContour = [lowerContour(2:end) - lowerContour(1:end-1); 0];
     gradientUpperContour = [upperContour(2:end) - upperContour(1:end-1); 0];
+    
+    bwTransitions = sum(diff(wordImg,1,1)~=0,1)';
 
-    ts = timeseries([lowerContour,upperContour,fractionOfBlackPixels,gradientLowerContour,gradientUpperContour],1:size(wordImg,2));
+    ts = timeseries([lowerContour,upperContour,fractionOfBlackPixels,gradientLowerContour,gradientUpperContour,bwTransitions],1:size(wordImg,2));
     wordInfo = regexp(filename,'(?<pageNo>\d+)-(?<lineNo>\d+)-(?<wordNo>\d+)','names');
     
     dataset.pageNo(ii) = str2num(wordInfo.pageNo);
     dataset.lineNo(ii) = str2num(wordInfo.lineNo);
     dataset.wordNo(ii) = str2num(wordInfo.wordNo);
+    dataset.transcription{ii} = transcription{ii};
     dataset.timeseries = cat(1,dataset.timeseries,ts);
     
     wholeFeatureMatrix = cat(1,wholeFeatureMatrix,dataset.timeseries(ii).Data);

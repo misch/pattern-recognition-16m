@@ -24,7 +24,7 @@ keyword = 'O-r-d-e-r-s';
 %% Spot given keyword in the validation set
 % TODO: improve accuracy...
 
-foundWords = spotKeyword(keyword,trainingSet,validationSet);
+foundWords = spotKeyword(keyword,trainingSet,validationSet,1000);
 
 %% Show the results
 % TODO: For now I just output the transcriptions of the keyword and 

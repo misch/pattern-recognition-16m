@@ -1,4 +1,4 @@
-function foundWords = spotKeyword(keyword, trainingSet, validationSet)
+function foundWords = spotKeyword(keyword, trainingSet, validationSet, nResults)
 %SPOTKEYWORD spot a keyword in the validation data 
 %    Input: 
 %       keyword: transcription of the keyword to spot
@@ -44,6 +44,6 @@ end
 % sort the words by their dtw-distance to the keyword
 distances = sortrows(distances,2);
 
-% return the 10 words with smallest distances as the spotting result
+% return the nResults words with smallest distances as the spotting result
 % TODO: Use a threshold
-foundWords = distances(1:10,1);
+foundWords = distances(1:nResults,1);

@@ -36,4 +36,4 @@ validationSet.transcription(foundWords)
 %% Evaluate performance
 % TODO: I'm not sure what performance measure we should use
 
-[precision, recall] = evaluatePerformance(keyword,foundWords,validationSet)
+[precision, recall, auc] = evaluatePerformance(keyword,foundWords,validationSet);

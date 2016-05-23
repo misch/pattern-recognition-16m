@@ -1,9 +1,10 @@
-function output = outputResults(data, labels, dissimilarities)
+function output = outputResults(dataSet, dissimilarities)
 
-% add labels and dissimilarities to the data, so we can sort it
-data(:,4)=num2cell(dissimilarities);
-data(:,5)=num2cell(labels);
-data = sortrows(data,[1,4,2]);
+% create dataset storing writerID, signatureID and computed dissimilarity
+data(:,1)=dataSet.writerID;
+data(:,2)=dataSet.filename;
+data(:,3)=num2cell(dissimilarities);
+data = sortrows(data,[1,3,2]);
 
 % bring data in desired form:
 % user1, signature_i, dissimilarity_i, signature_j, dissimilarity_j, ...
@@ -24,12 +25,12 @@ for i = 1:size(data,1);
     end
     output(row,col) = data(i,2);
     col = col+1;
-    output(row,col) = data(i,4);
+    output(row,col) = data(i,3);
     col = col+1;
 end
 
-% write data to txt-file
+% write data to csv-file
 table = cell2table(output);
-writetable(table,'data/results.txt','WriteRowNames',false,'WriteVariableNames',false)
+writetable(table,'../resultFiles/signatures_result.csv','WriteRowNames',false,'WriteVariableNames',false)
 
 end

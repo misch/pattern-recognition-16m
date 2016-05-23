@@ -8,7 +8,7 @@ for i = 1:nSignatures
         writerID = dataSet.writerID(i);
 
         % get this writers genuine signatures from the training set
-        indices = find(dataSet.writerID == writerID);
+        indices = find(strcmp(dataSet.writerID,writerID));
 
         % compute the distances between each pair of genuine signatures of  
         % this writer. The average between maximal distance and mean 

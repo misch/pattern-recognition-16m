@@ -1,8 +1,12 @@
 %% Load test and training data and the ground truth data
 
 trainingSet = loadData('data/enrollment/');
-verificationSet = loadData('data/verification/');
-groundTruth = loadGroundTruth('data/verification-gt.txt');
+verificationSet = loadData('data/verification_small/');
+groundTruthAvailable = false;
+if (exist('data/verification-gt.txt'))
+    groundTruth = loadGroundTruth('data/verification-gt_small.txt');
+    groundTruthAvailable = true;
+end
 
 
 %% Compute dissimilarity of the signatures in the verification set
@@ -16,10 +20,12 @@ trainingSet = computeThreshold(trainingSet);
 
 %% Evaluate classifications
 
-accuracy = evaluatePerformance(labels, dissimilarities, groundTruth);
-accuracy
+if (groundTruthAvailable==true)
+    meanAvgPrec = evaluatePerformance(labels, dissimilarities, groundTruth);
+    meanAvgPrec
+end
 
 
 %% output dissimilarities to file for evaluation 
 
-outputResults(groundTruth, labels, dissimilarities);
+outputResults(verificationSet, dissimilarities);

@@ -23,7 +23,7 @@ for i = 1:nSignatures
         signatureData = trainingSet.timeseries(indices(j)).Data;
         tmpDist(j) = dtwDistance(signatureData, verificationSet.timeseries(i).Data);
     end
-    dissimilarities(i) = mean(tmpDist);
+    dissimilarities(i) = min(tmpDist);
     
     % determine the label of the signature (genuine or forgery)
     threshold = trainingSet.threshold(indices(1));

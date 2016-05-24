@@ -1,10 +1,10 @@
 %% Load test and training data and the ground truth data
 
 trainingSet = loadData('data/enrollment/');
-verificationSet = loadData('data/verification_small/');
+verificationSet = loadData('data/verification/');
 groundTruthAvailable = false;
 if (exist('data/verification-gt.txt'))
-    groundTruth = loadGroundTruth('data/verification-gt_small.txt');
+    groundTruth = loadGroundTruth('data/verification-gt.txt');
     groundTruthAvailable = true;
 end
 

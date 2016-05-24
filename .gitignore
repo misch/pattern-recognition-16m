@@ -7,3 +7,5 @@
 # everyone keeps his own data files
 *.csv
 Exercise3_KWS/data/*
+Exercise4_SV/data/*
+Exercise4_SV/TestSignatures/*

@@ -7,7 +7,9 @@ test = csvread('../test.csv');
 
 n_class = size(unique(train(:,1)),1);
 
-[optC, optKernel, optCAcc] = crossValidateSVM(train, n_class, 5);
+%[optC, optKernel, optCAcc] = crossValidateSVM(train, n_class, 5);
+optC = 1;
+optKernel = 'rbf';
 
 %% Train the SVM
 

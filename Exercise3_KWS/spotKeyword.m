@@ -1,4 +1,4 @@
-function foundWords = spotKeyword(keyword, trainingSet, validationSet, nResults)
+function [foundWords, distances] = spotKeyword(keyword, trainingSet, testSet, nResults)
 %SPOTKEYWORD spot a keyword in the validation data 
 %    Input: 
 %       keyword: transcription of the keyword to spot
@@ -8,7 +8,7 @@ function foundWords = spotKeyword(keyword, trainingSet, validationSet, nResults)
 %       foundWords: vector storing the indices of the spotted words
 
 % find all occurrences of the keyword in the training set using the 
-% transcriptions and store their indices
+% transcriptions and store their indices 
 keywordIndices = [];
 for i = 1:size(trainingSet.transcription,1)
     if (strcmp(keyword, trainingSet.transcription{i}))
@@ -17,7 +17,7 @@ for i = 1:size(trainingSet.transcription,1)
 end
 
 % get nr of words in the validation set 
-nWords = size(validationSet.timeseries,1);
+nWords = size(testSet.timeseries,1);
 
 % get nr of occurrences of the keyword in the training set (limit it to 4
 % for performance reasons)
@@ -36,7 +36,7 @@ for i = 1:nWords
     % (or take the mean, or the min. Have to test what works best)
     for j = 1:nKeywordImages
         keywordData = trainingSet.timeseries(keywordIndices(j)).Data;
-        tmpDist(j) = dtwDistance(keywordData, validationSet.timeseries(i).Data);
+        tmpDist(j) = dtwDistance(keywordData, testSet.timeseries(i).Data);
     end
     distances(i,2) = sum(tmpDist);
 end
@@ -47,3 +47,4 @@ distances = sortrows(distances,2);
 % return the nResults words with smallest distances as the spotting result
 % TODO: Use a threshold
 foundWords = distances(1:nResults,1);
+distances = distances(1:nResults,2);

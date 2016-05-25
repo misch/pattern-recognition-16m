@@ -10,30 +10,23 @@ end
 
 %% Split data into training and validation set
 
-trainFile = 'data/task/train.txt';
-validFile = 'data/task/valid.txt';
-[trainingSet, validationSet] = partitionData(trainFile,validFile,dataset);
+trainPages = importdata('data/task/train.txt');    
+validationPagses = importdata('data/task/valid.txt');
+[trainingSet, validationSet] = partitionData(trainPages,validationPagses,dataset);
 
 %% Get keyword to spot in the validation set
-% TODO: For now I just select a word-transcription from the keywords-file 
 
-queries = textread('data/task/keywords.txt','%s');
-%keyword = queries{23};
 keyword = 'O-r-d-e-r-s';
 
 %% Spot given keyword in the validation set
-% TODO: improve accuracy...
 
-foundWords = spotKeyword(keyword,trainingSet,validationSet,1000);
+[foundWords,~] = spotKeyword(keyword,trainingSet,validationSet,10);
 
 %% Show the results
-% TODO: For now I just output the transcriptions of the keyword and 
-% the spotted words
 
 keyword
 validationSet.transcription(foundWords)
 
 %% Evaluate performance
-% TODO: I'm not sure what performance measure we should use
 
 [precision, recall, auc] = evaluatePerformance(keyword,foundWords,validationSet);

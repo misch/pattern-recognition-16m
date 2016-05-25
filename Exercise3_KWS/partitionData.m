@@ -1,20 +1,15 @@
-function [train, valid] = partitionData(trainFile,validFile,dataset)
+function [train, test] = partitionData(trainPages,testPages,dataset)
 %PARTITIONDATA Split data into training set and validation set
 %    Input: 
-%       trainFile: file storing the pages used as training data
-%       validFile: file storing the pages used as validation data
 %       dataset: dataset storing features (and more) for all words
 %    Return: 
 %       train: subset of the dataset we use as training data
-%       valid: subset of the dataset we use as validation data
-
-% Get pages we use as training data
-pages = importdata('data/task/train.txt');
+%       test: subset of the dataset we use as test data
 
 % Extract entries from the dataset that belong to the training pages
 indices = zeros(size(dataset.pageNo,1),1);
-for i = 1:size(pages,1)
-    indices = indices + (dataset.pageNo == pages(i));
+for i = 1:size(trainPages,1)
+    indices = indices + (dataset.pageNo == trainPages(i));
 end
 indices = logical(indices);
 
@@ -22,23 +17,23 @@ indices = logical(indices);
 train = struct('pageNo',dataset.pageNo(indices),...
                     'lineNo',dataset.lineNo(indices),...
                     'wordNo',dataset.wordNo(indices),...
+                    'filename',{dataset.filename(indices)},...
                     'transcription',{dataset.transcription(indices)},...
                     'timeseries',dataset.timeseries(indices));
-     
-% Get pages we use as validation data           
-pages = importdata('data/task/valid.txt');
 
-% Extract entries from the dataset that belong to the validation pages
+% Extract entries from the dataset that belong to the test pages
 indices = zeros(size(dataset.pageNo,1),1);
-for i = 1:size(pages,1)
-    indices = indices + (dataset.pageNo == pages(i));
+for i = 1:size(testPages,1)
+    indices = indices + (dataset.pageNo == testPages(i));
 end
 indices = logical(indices);
 
-% Create struct storing the validation data
-valid = struct('pageNo',dataset.pageNo(indices),...
+% Create struct storing the test data
+test = struct('pageNo',dataset.pageNo(indices),...
                     'lineNo',dataset.lineNo(indices),...
                     'wordNo',dataset.wordNo(indices),...
+                    'filename',{dataset.filename(indices)},...
                     'transcription',{dataset.transcription(indices)},...
-                    'timeseries',dataset.timeseries(indices));             
+                    'timeseries',dataset.timeseries(indices));
+                
 end

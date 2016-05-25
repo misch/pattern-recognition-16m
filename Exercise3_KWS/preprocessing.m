@@ -28,6 +28,7 @@ n_files = length(allWordFiles);
 dataset = struct(   'pageNo',zeros(n_files,1),...
                     'lineNo',zeros(n_files,1),...
                     'wordNo',zeros(n_files,1),...
+                    'filename',{cell(n_files,1)},...
                     'transcription',{cell(n_files,1)},...
                     'timeseries',[],...
                     'mu',[],...
@@ -52,12 +53,16 @@ for ii = 1:n_files
 
     ts = timeseries([lowerContour,upperContour,fractionOfBlackPixels,gradientLowerContour,gradientUpperContour,bwTransitions],1:size(wordImg,2));
     wordInfo = regexp(filename,'(?<pageNo>\d+)-(?<lineNo>\d+)-(?<wordNo>\d+)','names');
+    filename = char(filename);
     
     dataset.pageNo(ii) = str2num(wordInfo.pageNo);
     dataset.lineNo(ii) = str2num(wordInfo.lineNo);
     dataset.wordNo(ii) = str2num(wordInfo.wordNo);
-    dataset.transcription{ii} = transcription{ii};
+    dataset.filename{ii} = filename(1:end-4);   
     dataset.timeseries = cat(1,dataset.timeseries,ts);
+    if (ii <= size(transcription,1))
+        dataset.transcription{ii} = transcription{ii};
+    end
     
     wholeFeatureMatrix = cat(1,wholeFeatureMatrix,dataset.timeseries(ii).Data);
 end
